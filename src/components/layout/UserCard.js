@@ -47,7 +47,6 @@ export default function UserCard({user, children}) {
     		<Fragment>
 	    		<UserWrapper>
 	    			<AccountCircleIcon color='secondary' sx={{fontSize: '7.5rem'}} />
-	    			<Typography variant='subtitle1'>Kabir Usman</Typography>
 	    		</UserWrapper>
 	    		<DetailWrapper>
 	    			<Detail item='height' value={info !== null && info.height} prefix='cm' />
