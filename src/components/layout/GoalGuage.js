@@ -23,7 +23,7 @@ export default function Guage(props) {
 	const { exercise } = useDb();
 	const [complete, setComplete] = useState(0)
 
-	const [state] = useState({
+	const [state, setState] = useState({
 		series: [67.5],
 		options: {
 			chart: { height: 100, type: 'radialBar', offsetY: -15 },
@@ -48,6 +48,11 @@ export default function Guage(props) {
 		let completed = 0;
 		matchExercise.forEach(f => completed += f.time)
 		setComplete(completed);
+		let tempState = state.options;
+		setState({
+			series: [Math.round(completed*10/(props.data.target))],
+			options: {...tempState}
+		})
 	})
 
 	const exType = exerciseTypes.filter((f) => f.id === props.data.type);
