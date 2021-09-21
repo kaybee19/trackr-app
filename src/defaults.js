@@ -24,5 +24,6 @@ export function localDb(t, k, v) {
   if (t === 'reset') {
     localStorage.removeItem('timer');
     localStorage.setItem('exercise', null);
+    localStorage.setItem('active', false);
   }
 };

@@ -9,6 +9,7 @@ const DbContext = createContext()
 export function useDb() {
   return useContext(DbContext);
 }
+
 const DbProvider = ({children}) => {
 	const history = useHistory();
 	const { user } = useAuth();
@@ -28,6 +29,8 @@ const DbProvider = ({children}) => {
 						height: doc.data().height,
 						weight: doc.data().weight,
 						age: doc.data().age,
+						firstName: doc.data().firstName,
+						lastName: doc.data().lastName,
 		    	});
 		    	setGoals(doc.data().goals);
 		    	setExercises(doc.data().exercise);

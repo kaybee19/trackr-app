@@ -3,7 +3,7 @@ import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom";
 import { useAuth, AuthProvider } from "./Auth";
 import { DbProvider } from './context/DbContext'
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import appTheme from './util/theme'
+import { appTheme } from './util/theme'
 
 // Comps
 import Navbar from './components/layout/Navbar';

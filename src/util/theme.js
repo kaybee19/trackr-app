@@ -1,4 +1,4 @@
-export default {
+export const appTheme = {
   palette: {
     primary: {
       light: '#563f2d',

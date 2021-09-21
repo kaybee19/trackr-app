@@ -7,7 +7,7 @@ import { useDb } from '../../context/DbContext';
 export default function ViewHistory() {
 
 	const { goals } = useDb();
-	console.log(goals)
+
 	return (
 		<PopupWrapper text='View Goals History' icon={<TrackChangesIcon fontSize='large' />}>
 			<div>

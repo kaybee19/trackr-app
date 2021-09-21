@@ -5,13 +5,15 @@ import TextField from '@mui/material/TextField';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import DatePicker from '@mui/lab/DatePicker';
+import Typography from '@mui/material/Typography';
 import ReactApexChart from "react-apexcharts";
 import styled from 'styled-components'
 import { useDb } from '../../context/DbContext';
+import { useAuth } from '../../Auth';
 import { exerciseTypes } from '../../defaults';
 
 const GraphWrapper = styled.div`
-	margin-top: 1rem 0;
+	margin-top: .5rem;
 	background-color: white;
 	padding: 1rem;
 	border-radius: 8px;
@@ -24,17 +26,13 @@ export default function Graph() {
   const [value, setValue] = useState(null);
   const [types, setTypes] = useState();
   const { exercise } = useDb();
-
-	const filterDate = (exercise !== undefined) && (exercise !== null) && (value !== null) && exercise.filter((fil) => {
-		return dayjs(fil.['createdAt']).format('DD/MM/YYYY') === dayjs(JSON.stringify(value).split('"')[1]).format('DD/MM/YYYY')
-	});
+  const { user } = useAuth();
 
 	useEffect(() => {
 		let getTypes = [];
 		exerciseTypes.forEach((f) => {
 			getTypes.push(f.name)
 		})
-		console.log(getTypes)
 		setTypes(getTypes)
 	}, [])
 
@@ -63,6 +61,10 @@ export default function Graph() {
 
 	useEffect(() => {
 
+		const filterDate = (exercise !== undefined) && (exercise !== null) && (value !== null) && exercise.filter((fil) => {
+			return dayjs(fil.['createdAt']).format('DD/MM/YYYY') === dayjs(JSON.stringify(value).split('"')[1]).format('DD/MM/YYYY')
+		});
+
 		// Get exercise types
 		let getTypes = [];
 		exerciseTypes.forEach((f) => {
@@ -82,7 +84,7 @@ export default function Graph() {
 		})
 
 		setState({series:[{ name: 'Time', data: stateData },], option:{ ...stateItem}})
-	}, [filterDate, exercise, state.options, value])
+	}, [exercise, value])
 
 	return (
 		<GraphWrapper>
@@ -96,7 +98,10 @@ export default function Graph() {
 	        renderInput={(params) => <TextField {...params} />}
 	      />
 	    </LocalizationProvider>
-			<ReactApexChart options={state.options} series={state.series} type="bar" height={350} />
+	    {
+	    	!user ? <div style={{marginTop: '1rem'}}><Typography variant='overline'>Please log in to view exercise chart</Typography></div> :
+	    	<ReactApexChart options={state.options} series={state.series} type="bar" height={350} />
+	    }
 		</GraphWrapper>
 	);
 }

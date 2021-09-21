@@ -75,6 +75,7 @@ export default function Timer(props) {
     }
 
     return () => clearInterval(intervalId);
+    
   }, [isActive, counter, time])
 
   return (

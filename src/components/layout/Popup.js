@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, Fragment } from 'react';
 import Modal from '@mui/material/Modal';
 
 export default function Popup({children, ...rest}) {
@@ -13,14 +13,16 @@ export default function Popup({children, ...rest}) {
   };
 
 	return (
-		<>
+		<Fragment>
       <div onClick={handleOpen}>{rest.wrapper}</div>
       <Modal
         open={open}
         onClose={handleClose}
       >
-      	{children}
+      	<Fragment>
+         {children} 
+        </Fragment>
       </Modal>
-		</>
+		</Fragment>
 	);
 }

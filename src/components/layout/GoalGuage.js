@@ -39,7 +39,7 @@ export default function Guage(props) {
 			  colors: ['#05b7ac']
 			},
 			stroke: { dashArray: 4 },
-			labels: [`You have achived 67.5% of your current goal`],
+			labels: ['Percentage of Goal Achieved'],
 		}
 	});
 
@@ -53,7 +53,7 @@ export default function Guage(props) {
 			series: [Math.round(completed*10/(props.data.target))],
 			options: {...tempState}
 		})
-	})
+	}, [exercise, props.data.target, props.data.type])
 
 	const exType = exerciseTypes.filter((f) => f.id === props.data.type);
 

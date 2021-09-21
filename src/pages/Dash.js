@@ -1,6 +1,7 @@
 import React from 'react';
 import { useHistory } from "react-router-dom";
 import styled from 'styled-components'
+import { useAuth } from '../Auth';
 
 // Material
 import Grid from '@mui/material/Grid';
@@ -29,7 +30,7 @@ const GridWrapper = styled(Grid)`
 
 const Items = (props) => {
 	return (
-		<Grid sx={{height: 'fit-content'}} item xs={12} md={12} lg={props.grid} onClick={props.click}>
+		<Grid sx={{height: 'fit-content'}} item xs={12} md={12} lg={props.grid} onClick={props.click ? props.click : undefined}>
 			<CardWrapper icon={props.icon} text={props.text} />
 		</Grid>
 	)
@@ -38,10 +39,15 @@ const Items = (props) => {
 export default function Dash() {
 
   const [anchorEl, setAnchorEl] = React.useState(null);
-
+  const { user } = useAuth();
 	let history = useHistory();
+
   const handlePush = () => {
     history.push("/fitness");
+  }
+
+  const handleLogin = () => {
+    history.push("/login");
   }
 
   const handleClose = () => {
@@ -57,7 +63,7 @@ export default function Dash() {
 	        	<Popup
 	        	 	close={handleClose}
 	        		wrapper={
-	        			<Items text='set new targets' grid={12} icon={<TrackChangesIcon color='primary' sx={{fontSize: '5rem'}} />} />
+	        			<Items text='set new targets' click={!user && handleLogin} grid={12} icon={<TrackChangesIcon color='primary' sx={{fontSize: '5rem'}} />} />
 	        		}
 	        		>
 	        		<GoalSet />
