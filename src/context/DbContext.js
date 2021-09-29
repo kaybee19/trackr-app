@@ -17,7 +17,7 @@ const DbProvider = ({children}) => {
 	const [error, setError] = useState();
 	const [goals, setGoals] = useState();
 	const [currentGoal, setCurrent] = useState(null);
-	const [exercise, setExercises] = useState();
+	const [exercise, setExercises] = useState(null);
 
 	useEffect(() => {
 		if (user) {
@@ -36,6 +36,11 @@ const DbProvider = ({children}) => {
 		    	setExercises(doc.data().exercise);
 		    }
 	    })
+		}
+		else {
+			setInfo(null);
+			setGoals(null);
+			setExercises(null);
 		}
 	}, [user])
 
@@ -68,7 +73,7 @@ const DbProvider = ({children}) => {
         	createdAt: new Date().toISOString()
         })
       });
-      setGoals([...goals, {duration, target, type}]);
+      setGoals([...goals, {duration, target, type, createdAt: new Date().toISOString()}]);
 		}
 		catch (err) {
 			console.log(err)

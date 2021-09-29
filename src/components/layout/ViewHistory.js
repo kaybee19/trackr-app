@@ -12,7 +12,7 @@ export default function ViewHistory() {
 		<PopupWrapper text='View Goals History' icon={<TrackChangesIcon fontSize='large' />}>
 			<div>
 				{
-					goals !== undefined && goals.map((d, i) =>  <HistoryCard data={d} index={i} key={i} /> )
+					goals !== null && goals !== undefined && goals.map((d, i) =>  <HistoryCard data={d} index={i} key={i} /> )
 				}
 			</div>
 		</PopupWrapper>

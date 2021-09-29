@@ -24,7 +24,7 @@ export default function Guage(props) {
 	const [complete, setComplete] = useState(0)
 
 	const [state, setState] = useState({
-		series: [67.5],
+		series: [0],
 		options: {
 			chart: { height: 100, type: 'radialBar', offsetY: -15 },
 			plotOptions: {
@@ -44,7 +44,7 @@ export default function Guage(props) {
 	});
 
 	useEffect(() => {
-		let matchExercise = exercise.filter(f => f.exerciseId === props.data.type)
+		let matchExercise = props.data !== null && exercise.filter(f => (f.exerciseId === props.data.type) && (f.createdAt > props.data.createdAt));
 		let completed = 0;
 		matchExercise.forEach(f => completed += f.time)
 		setComplete(completed);
@@ -57,6 +57,26 @@ export default function Guage(props) {
 
 	const exType = exerciseTypes.filter((f) => f.id === props.data.type);
 
+	const dateFunc = (p) => {
+		let date1 = dayjs(props.data.createdAt).format('MM/DD/YYYY');
+
+		const newDate1 = new Date(JSON.stringify(date1));
+		const thisDate = new Date();
+
+		const diffTime = Math.abs(thisDate - newDate1);
+		const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+		let result = props.data.duration - diffDays + 1;
+
+		if (result > 0) {
+			return `${result} day(s) left`
+		} else
+		{
+			return 'Completed'
+		}
+	}
+
+
 	return (
 		<div id="chart">
 			<ReactApexChart options={state.options} series={state.series} type="radialBar" height={350} />
@@ -65,13 +85,19 @@ export default function Guage(props) {
 					<Bold>Exercise</Bold>: {exType[0]['name']}
 				</Typography>
 				<Typography sx={{fontSize: '.85rem'}} variant='caption'>
-					<Bold>Overall Target</Bold>: {props.data !== null && props.data.target} hours
+					<Bold>Daily Target</Bold>: {props.data !== null && props.data.target} minutes
+				</Typography>
+				<Typography sx={{fontSize: '.85rem'}} variant='caption'>
+					<Bold>Duration</Bold>: {props.data !== null && props.data.duration} days
+				</Typography>
+				<Typography sx={{fontSize: '.85rem'}} variant='caption'>
+					<Bold>Overall Target</Bold>: {props.data !== null && Math.round((props.data.target*props.data.target/60)*10)/10} hours
 				</Typography>
 				<Typography sx={{fontSize: '.85rem'}} variant='caption'>
 					<Bold>Completed</Bold>: {complete} minutes
 				</Typography>
 				<Typography sx={{fontSize: '.85rem'}} variant='caption'>
-					<Bold>Time Left</Bold>: {props.data !== null && dayjs(props.data.createdAt).diff((dayjs(props.data.createdAt).subtract(props.data.duration, 'day')), 'day')} days left
+					<Bold>Time Left</Bold>: {props.data !== null && dateFunc(props.data.createdAt)}
 				</Typography>
 			</Wrapper>
 		</div>
