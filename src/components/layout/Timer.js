@@ -36,7 +36,6 @@ export default function Timer(props) {
   const classes = useStyles(props);
 	const [time, setTime] = useState(0);
 	const [isActive, setIsActive] = useState(false);
-	const [counter, setCounter] = useState(0);
 
 	useEffect(() => {
 
@@ -70,13 +69,12 @@ export default function Timer(props) {
         setTime(comTime);
 
         localDb('set', 'timer', time+1);
-        setCounter(counter => counter + 1);
       }, 1000)
     }
 
     return () => clearInterval(intervalId);
     
-  }, [isActive, counter, time])
+  }, [isActive, time])
 
   return (
   	<Container maxWidth='lg'>
